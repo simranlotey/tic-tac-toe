@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Tic Tac Toe</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="container-section">
+            <div class="players">
+                <img src="./images/Player1.svg" alt="">
+                <img src="./images/Player2.svg" alt="Player 2">
+            </div>
+            <div class="container-winner">
+                <div class="winner"></div>
+                <button id="play-again-button" onclick="playAgain()">Play Again!</button>
+            </div>
+            <div class="container-box">
+                <div class="box" onclick="handleClick(0)"></div>
+                <div class="box" onclick="handleClick(1)"></div>
+                <div class="box" onclick="handleClick(2)"></div>
+                <div class="box" onclick="handleClick(3)"></div>
+                <div class="box" onclick="handleClick(4)"></div>
+                <div class="box" onclick="handleClick(5)"></div>
+                <div class="box" onclick="handleClick(6)"></div>
+                <div class="box" onclick="handleClick(7)"></div>
+                <div class="box" onclick="handleClick(8)"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="script.js"></script>
+
+</html>
