@@ -55,6 +55,7 @@ h1 {
 .players img {
   width: 100px;
   height: 100px;
+  margin-left: 50px;
   pointer-events: none;
   user-select: none;
 }
@@ -62,11 +63,6 @@ h1 {
 .players svg {
   margin-right: 50px;
 }
-
-.players img {
-  margin-left: 50px;
-}
-
 .winner {
   font-size: 24px;
   margin-top: 20px;
@@ -168,18 +164,12 @@ button {
   .players svg {
     width: 80px;
     height: 80px;
+    margin-right: 30px;
   }
 
   .players img {
     width: 80px;
     height: 80px;
-  }
-
-  .players img:nth-child(1) {
-    margin-right: 30px;
-  }
-
-  .players img:nth-child(2) {
     margin-left: 30px;
   }
 
@@ -225,18 +215,12 @@ button {
   .players svg {
     width: 70px;
     height: 70px;
+    margin-right: 20px;
   }
 
   .players img {
     width: 70px;
     height: 70px;
-  }
-
-  .players img:nth-child(1) {
-    margin-right: 20px;
-  }
-
-  .players img:nth-child(2) {
     margin-left: 20px;
   }
 
