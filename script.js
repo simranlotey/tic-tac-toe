@@ -57,6 +57,14 @@ function handleWin(player) {
     winnerElement.style.display = "block";
     document.getElementById("play-again-button").style.display = "block";
     celebration.style.display = "block";
+
+    winConditions.forEach(combination => {
+        if (combination.every(index => boxes[index].querySelector("img") && boxes[index].querySelector("img").alt === player)) {
+            combination.forEach(index => {
+                boxes[index].classList.add("winning");
+            });
+        }
+    });
     gameOver = true;
 }
 
@@ -77,31 +85,84 @@ function handleDraw() {
 function handleClick(index) {
     if (!gameOver && !boxes[index].querySelector("img")) {
         const player = currentPlayer === 1 ? "Player 1" : "Player 2";
-        const svgImage =
-            currentPlayer === 1 ? "./images/Player 1.png" : "./images/Player 2.png";
+        const playerImage = player === "Player 1" ? "./images/Player 1.png" : "./images/Player 2.png";
         const img = document.createElement("img");
-        img.src = svgImage;
+        img.src = playerImage;
         img.alt = player;
-        const mediaQueryWidth = window.matchMedia("(max-width: 475px)").matches
-            ? 50
-            : 70;
-        const mediaQueryHeight = window.matchMedia("(max-width: 475px)").matches
-            ? 50
-            : 70;
+        const mediaQueryWidth = window.matchMedia("(max-width: 475px)").matches ? 50 : 70;
+        const mediaQueryHeight = window.matchMedia("(max-width: 475px)").matches ? 50 : 70;
 
         img.width = mediaQueryWidth;
         img.height = mediaQueryHeight;
         img.style.pointerEvents = "none";
         img.style.userSelect = "none";
         boxes[index].appendChild(img);
+
         if (checkWin(player)) {
             handleWin(player);
         } else if (Array.from(boxes).every((box) => box.querySelector("img"))) {
             handleDraw();
         } else {
             currentPlayer = currentPlayer === 1 ? 2 : 1;
+            setTimeout(() => {
+                if (currentPlayer === 2) {
+                    let winningMoveIndex = findWinningMove();
+                    if (winningMoveIndex !== -1) {
+                        handleClick(winningMoveIndex);
+                    } else {
+                        let blockingMoveIndex = findBlockingMove();
+                        if (blockingMoveIndex !== -1) {
+                            handleClick(blockingMoveIndex);
+                        } else {
+                            let emptyBoxes = Array.from(boxes).filter(box => !box.querySelector("img"));
+                            let randomIndex = Math.floor(Math.random() * emptyBoxes.length);
+                            handleClick(Array.from(boxes).indexOf(emptyBoxes[randomIndex]));
+                        }
+                    }
+                }
+            }, 300);
         }
     }
+}
+
+function findWinningMove() {
+    for (let i = 0; i < winConditions.length; i++) {
+        let combination = winConditions[i];
+        let countPlayer2 = 0;
+        let emptyIndex = -1;
+        for (let j = 0; j < combination.length; j++) {
+            let index = combination[j];
+            if (boxes[index].querySelector("img") && boxes[index].querySelector("img").alt === "Player 2") {
+                countPlayer2++;
+            } else if (!boxes[index].querySelector("img")) {
+                emptyIndex = index;
+            }
+        }
+        if (countPlayer2 === 2 && emptyIndex !== -1) {
+            return emptyIndex;
+        }
+    }
+    return -1;
+}
+
+function findBlockingMove() {
+    for (let i = 0; i < winConditions.length; i++) {
+        let combination = winConditions[i];
+        let countPlayer1 = 0;
+        let emptyIndex = -1;
+        for (let j = 0; j < combination.length; j++) {
+            let index = combination[j];
+            if (boxes[index].querySelector("img") && boxes[index].querySelector("img").alt === "Player 1") {
+                countPlayer1++;
+            } else if (!boxes[index].querySelector("img")) {
+                emptyIndex = index;
+            }
+        }
+        if (countPlayer1 === 2 && emptyIndex !== -1) {
+            return emptyIndex;
+        }
+    }
+    return -1;
 }
 
 function playAgain() {
@@ -113,4 +174,7 @@ function playAgain() {
     document.querySelector(".winner").style.display = "none";
     document.getElementById("play-again-button").style.display = "none";
     celebration.style.display = "none";
+    boxes.forEach(box => {
+        box.classList.remove("winning");
+    });
 }
