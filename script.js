@@ -49,6 +49,8 @@ function handleWin(player) {
     winnerElement.innerHTML = "";
     heading.textContent = winnerText;
     img.style.display = "inline";
+    img.style.pointerEvents = "none";
+    img.style.userSelect = "none";
     heading.style.display = "inline";
     winnerElement.appendChild(img);
     winnerElement.appendChild(heading);
@@ -89,6 +91,8 @@ function handleClick(index) {
 
         img.width = mediaQueryWidth;
         img.height = mediaQueryHeight;
+        img.style.pointerEvents = "none";
+        img.style.userSelect = "none";
         boxes[index].appendChild(img);
         if (checkWin(player)) {
             handleWin(player);
